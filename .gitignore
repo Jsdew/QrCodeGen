@@ -54,12 +54,6 @@ dist/
 *.bak
 *.backup
 
-# Configuration and runtime files
-*.cfg
-*.ini
-*.yml
-*.yaml
-
 # Jupyter Notebooks
 *.ipynb
 
