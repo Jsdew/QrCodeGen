@@ -1,0 +1,89 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment and editor files
+.env
+*.env
+.venv/
+env/
+venv/
+qrgen_env/
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs and databases
+logs/
+*.log
+*.sqlite3
+
+# Test outputs
+tests/__pycache__/
+tests/*.py[cod]
+tests/*.png
+tests/*.jpg
+tests/*.jpeg
+tests/*.gif
+tests/*.bmp
+tests/*.webp
+tests/*.svg
+tests/*.ico
+
+# Image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.webp
+*.svg
+*.ico
+
+# Build and distribution directories
+build/
+dist/
+*.egg-info/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Configuration and runtime files
+*.cfg
+*.ini
+*.yml
+*.yaml
+
+# Jupyter Notebooks
+*.ipynb
+
+# Ignore hidden directories and files
+.*
+!.gitignore
+
+# Coverage reports
+coverage/
+.coverage
+*.cover
+
+# Ignore compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Ignore pytest cache
+.pytest_cache/
+.tox/
+
+# Ignore custom configuration files
+config/settings.yaml
+
+# Ignore output directories
+output/
+files/
