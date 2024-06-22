@@ -1,8 +1,7 @@
-# src/qr_generator.py
 import qrcode
 from PIL import Image
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional
 
 def generate_qr_code(data: str, fill_color: str = 'black', back_color: str = 'white',
                      version: int = 1, box_size: int = 10, border: int = 4,
@@ -30,13 +29,16 @@ def generate_qr_code(data: str, fill_color: str = 'black', back_color: str = 'wh
     logging.info(f"Generating QR code for data: {data}")
     qr = qrcode.QRCode(
         version=version,
-        error_correction=getattr(qrcode.constants, f'ERROR_CORRECT_{error_correction}'),  # Convert 'H' to qrcode.constants.ERROR_CORRECT_H
+        error_correction=getattr(qrcode.constants, f'ERROR_CORRECT_{error_correction}'),
         box_size=box_size,
-        border=max(border, quiet_zone),  # Ensure the border is at least as large as the quiet zone
+        border=max(border, quiet_zone),
     )
     qr.add_data(data)
     qr.make(fit=True)
 
     img = qr.make_image(fill_color=fill_color, back_color=back_color).convert('RGBA')
-    img = img.resize((int(width * scale), int(height * scale)), Image.LANCZOS)
+    if scale != 1.0:
+        img = img.resize((int(width * scale), int(height * scale)), Image.LANCZOS)
+    else:
+        img = img.resize((width, height), Image.LANCZOS)
     return img

@@ -1,4 +1,3 @@
-# src/config.py
 from pathlib import Path
 import yaml
 import os
@@ -6,6 +5,7 @@ import logging
 from typing import Any, Dict, Union
 from yaml.parser import ParserError
 from yaml.scanner import ScannerError
+from src.utils import validate_configuration  # Correct import
 
 def load_config(file_path: str = 'config/settings.yaml') -> Dict[str, Any]:
     """
@@ -30,7 +30,7 @@ def load_config(file_path: str = 'config/settings.yaml') -> Dict[str, Any]:
     try:
         with config_path.open('r') as file:
             config = yaml.safe_load(file)
-            validate_config(config)  # Validate config structure
+            validate_configuration(config)  # Use correct function
             return config
     except (ParserError, ScannerError) as e:
         logging.error(f"Error parsing the YAML configuration file: {file_path}")
@@ -41,7 +41,7 @@ def load_config(file_path: str = 'config/settings.yaml') -> Dict[str, Any]:
         logging.exception(e)
         raise
 
-def validate_config(config: Dict[str, Any]) -> None:
+def validate_configuration(config: Dict[str, Any]) -> None:
     """
     Validates the configuration dictionary structure.
 
@@ -57,8 +57,10 @@ def validate_config(config: Dict[str, Any]) -> None:
             raise ValueError(f"Missing required configuration section: {key}")
 
     # Validate 'data' section
-    if 'url' not in config['data']:
-        raise ValueError("Missing 'url' in 'data' section.")
+    data_section = config.get('data', {})
+    # Ensure at least one URL is present
+    if not any(data_section.get(key) for key in ['website', 'instagram', 'tiktok']):
+        raise ValueError("At least one URL must be provided in 'data' section (website, instagram, or tiktok).")
 
     # Validate 'output' section
     for key in ['qr_code_path', 'logo_path', 'final_path']:
@@ -77,6 +79,7 @@ def validate_config(config: Dict[str, Any]) -> None:
             raise ValueError(f"Missing '{key}' in 'qr_code' section.")
 
     # Additional specific checks can be added here, e.g., checking value ranges
+
 
 def get_config_path() -> str:
     """

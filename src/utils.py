@@ -1,4 +1,3 @@
-# src/utils.py
 import logging
 import os
 from urllib.parse import urlparse
@@ -86,16 +85,40 @@ def validate_configuration(config: Dict[str, Any]) -> None:
             logging.error(f"Missing required section: {section}")
             raise ValueError(f"Missing required section: {section}")
 
-    if 'url' not in config['data']:
-        logging.error("Missing 'url' in 'data' section.")
-        raise ValueError("Missing 'url' in 'data' section.")
+    data_section = config['data']
+    # Ensure at least one URL is provided
+    if not any(data_section.get(key) for key in ['website', 'instagram', 'tiktok']):
+        logging.error("At least one URL must be provided in 'data' section (website, instagram, or tiktok).")
+        raise ValueError("At least one URL must be provided in 'data' section (website, instagram, or tiktok).")
 
-    if 'output_format' not in config['output']:
+    output_section = config['output']
+    # Validate output paths
+    for key in ['qr_code_path', 'logo_path', 'final_path']:
+        if key not in output_section:
+            logging.error(f"Missing '{key}' in 'output' section.")
+            raise ValueError(f"Missing '{key}' in 'output' section.")
+
+    if 'output_format' not in output_section:
         logging.warning("'output_format' not specified. Defaulting to 'PNG'.")
-        config['output']['output_format'] = 'PNG'
+        output_section['output_format'] = 'PNG'
 
-    if 'gradient' not in config['appearance']:
+    appearance_section = config['appearance']
+    # Validate appearance settings
+    for key in ['fill_color', 'back_color', 'logo_size_ratio', 'padding']:
+        if key not in appearance_section:
+            logging.error(f"Missing '{key}' in 'appearance' section.")
+            raise ValueError(f"Missing '{key}' in 'appearance' section.")
+
+    if 'gradient' not in appearance_section:
         logging.warning("'gradient' not specified. Defaulting to disabled.")
-        config['appearance']['gradient'] = {'enabled': False, 'start_color': 'black', 'end_color': 'black'}
+        appearance_section['gradient'] = {'enabled': False, 'start_color': 'black', 'end_color': 'black'}
+
+    qr_code_section = config['qr_code']
+    # Validate QR code settings
+    qr_code_keys = ['version', 'error_correction', 'box_size', 'border', 'width', 'height']
+    for key in qr_code_keys:
+        if key not in qr_code_section:
+            logging.error(f"Missing '{key}' in 'qr_code' section.")
+            raise ValueError(f"Missing '{key}' in 'qr_code' section.")
 
     logging.info("Configuration validated successfully.")

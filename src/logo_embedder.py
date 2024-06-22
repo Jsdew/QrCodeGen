@@ -1,4 +1,3 @@
-# src/logo_embedder.py
 from PIL import Image, ImageDraw
 import logging
 import os
@@ -53,5 +52,8 @@ def add_logo_to_qr(qr_img: Image.Image, logo_path: str, output_path: str,
 
     # Paste the logo using the mask
     qr_img_with_circle.paste(logo, pos, mask)
+
+    # Ensure directory exists before saving
+    ensure_directory_exists(os.path.dirname(output_path))
     save_image(qr_img_with_circle, output_path)
     logging.info(f"QR code with logo saved to: {output_path}")

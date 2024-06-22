@@ -1,5 +1,4 @@
-# src/image_utils.py
-from PIL import Image, ImageDraw  # Added ImageDraw import
+from PIL import Image, ImageDraw
 import logging
 
 def hex_to_rgb(hex_color: str) -> tuple:
@@ -32,7 +31,7 @@ def apply_gradient(img: Image.Image, start_color: str, end_color: str) -> Image.
     logging.info(f"Applying gradient from {start_rgb} to {end_rgb}")
 
     gradient = Image.new('RGBA', img.size, color=0)
-    draw = ImageDraw.Draw(gradient)  # Ensure ImageDraw is used here
+    draw = ImageDraw.Draw(gradient)
 
     for y in range(img.height):
         r = int(start_rgb[0] + (float(end_rgb[0] - start_rgb[0]) / img.height) * y)
