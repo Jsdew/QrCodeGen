@@ -27,7 +27,7 @@ The QR Code Generator is a robust, modular, and customizable Python tool for gen
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/qr-code-generator.git
+    git clone https://github.com/Jsdew/QrCodeGen.git
     cd qr-code-generator
     ```
 
