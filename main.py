@@ -1,11 +1,13 @@
+# main.py
 from src.qr_generator import generate_qr_code
 from src.image_utils import apply_gradient, apply_background_image
 from src.logo_embedder import add_logo_to_qr
 from src.utils import validate_url, validate_configuration
 from src.config import load_config, get_config_path
 from src.logger import configure_logging, log_execution_time
-from src.file_utils import ensure_directory_exists  
+from src.file_utils import ensure_directory_exists
 import logging
+from typing import Any, Dict
 import os
 
 # Initialize logging
@@ -57,6 +59,7 @@ def main() -> None:
             padding = config['appearance']['padding']
             foreground_pattern = config['appearance'].get('foreground_pattern', 'squares')
             gradient = config['appearance'].get('gradient')
+            logo_shape = config['logo']['shape']
 
             qr_code_config = config['qr_code']
             version = qr_code_config['version']
@@ -92,7 +95,10 @@ def main() -> None:
                 qr_img = apply_background_image(qr_img, background_image)
 
             logging.info(f"Adding logo to the {service_name} QR code...")
-            add_logo_to_qr(qr_img, config['output']['logo_path'], output_path, logo_size_ratio=logo_size_ratio, padding=padding)
+
+            # Use the logo path directly from the configuration
+            logo_path = config['output']['logo_path']
+            add_logo_to_qr(qr_img, logo_path, output_path, logo_size_ratio=logo_size_ratio, padding=padding, shape=logo_shape)
 
             logging.info(f"{service_name} QR code saved as {output_path}")
 

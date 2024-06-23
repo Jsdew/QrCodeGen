@@ -8,7 +8,7 @@ data:
 
 output:
   qr_code_path: './files/output/custom_qr.png' # Path to save the generated QR code
-  logo_path: './files/input/logo'  # Path without extension, will be dynamically determined
+  logo_path: './files/input/logo.jpg'  # Path without extension, will be dynamically determined
   final_path: './files/output_logo/qr_with_logo.png' # Path to save the final QR code with the logo
   output_format: 'PNG'          # Output format for the QR code image (e.g., PNG, JPEG)
 
@@ -36,4 +36,4 @@ qr_code:
   scale: 1.0                    # Scaling factor for the entire QR code
 
 logo:
-  shape: 'square'               # Shape of the logo area (circle, square)
+  shape: 'circle'               # Shape of the logo area (circle, square)
